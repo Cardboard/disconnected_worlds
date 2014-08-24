@@ -16,18 +16,21 @@ class Object(pygame.sprite.Sprite):
 
         self.frames = {}
         self.anim = 'idle'
-        self.setup_frames('idle', 0, 1)
+        self.setup_frames('idle', 0, 2)
         self.frame = 0
         self.frametime = 0.0
-        self.frametime_max = 7.0      
+        self.frametime_max = 10.0      
 
         self.reqs = []
         self.unreqs = []
+        self.parents = []
         self.type = ''  
 
         self.message = ""
         self.error = "" # message when reqs aren't met
         self.response = "" # message when toggled
+
+        self.breaks = False
 
         self.view = None # objects are only visible when on a specific view
 
@@ -58,7 +61,7 @@ class Object(pygame.sprite.Sprite):
             self.frametime += dt
 
             if self.frametime > self.frametime_max:
-                self.frame = (self.frame + 1) % len(self.frames)
+                self.frame = (self.frame + 1) % len(self.frames[self.anim])
                 self.frametime = 0.0
 
     def draw(self, display, world, loc):
@@ -73,8 +76,13 @@ class Object(pygame.sprite.Sprite):
     def add_req(self, name):
         self.reqs.append(name)
 
+    # object must be grabbed to use this object
     def add_unreq(self, name):
         self.unreqs.append(name)
+
+    # object must be toggled on to use this object
+    def add_parent(self, name):
+        self.parents.append(name)
 
     def set_messages(self, message=None, error=None, response=None):
         if message:
@@ -96,14 +104,25 @@ class Object(pygame.sprite.Sprite):
                 if unreq == obj.name:
                     return False
 
+        for parent in self.parents:
+            for obj in objects:
+                # object is a parent and not toggled on
+                if not(obj.name == parent and obj.anim == 'on'):
+                    return False
+
         for req in r:
             player.inventory[req]['uses'] -= 1
             if player.inventory[req]['uses'] <= 0:
                 player.inventory.pop(req)
+        if self.breaks:
+            self.reqs = ['global warming'] # because it doesn't exist lol
         return True
 
     def set_uses(self, num):
         self.uses = num
+
+    def set_breaks(self):
+        self.breaks = True
 
 
 class Player(Object):
@@ -118,29 +137,28 @@ class Player(Object):
         self.inventory = {}
 
     def move(self, dt, keys, restr):
-        if keys[pygame.K_LEFT] and self.rect.centerx > restr['left']:
+        if (keys[pygame.K_LEFT] or keys[pygame.K_s]) and self.rect.centerx > restr['left']:
             self.rect = self.rect.move(-self.xspeed * dt, 0)
-            #self.set_anim('left')
-        if keys[pygame.K_RIGHT] and self.rect.centerx < restr['right']:
+            self.set_anim('left')
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_f]) and self.rect.centerx < restr['right']:
             self.rect = self.rect.move(self.xspeed * dt, 0)
-            #self.set_anim('right')
-        if keys[pygame.K_UP] and self.rect.bottom > restr['top']:
+            self.set_anim('right')
+        if (keys[pygame.K_UP] or keys[pygame.K_e]) and self.rect.bottom > restr['top']:
             self.rect = self.rect.move(0, -self.yspeed * dt)
-            #self.set_anim('up')
-        if keys[pygame.K_DOWN] and self.rect.bottom < restr['bot']:
+            self.set_anim('up')
+        if (keys[pygame.K_DOWN] or keys[pygame.K_d]) and self.rect.bottom < restr['bot']:
             self.rect = self.rect.move(0, self.yspeed * dt)
-            #self.set_anim('up')
+            self.set_anim('idle')
 
-    def change_view(self, width):
-        if self.rect.centerx < self.view_border:
-            self.set_pos(450, self.rect.y)
-            return -1
-        if self.rect.centerx > width - self.view_border:
-            self.set_pos(200, self.rect.y)
-            return 1
+    def change_view(self, width, world):
+        if len(world) != 1:
+            if self.rect.centerx < self.view_border:
+                self.set_pos(450, self.rect.y)
+                return -1
+            if self.rect.centerx > width - self.view_border:
+                self.set_pos(200, self.rect.y)
+                return 1
         return 0
-
-
 
     def interact(self, game, objects):
         for obj in objects:
@@ -200,12 +218,8 @@ class Game:
             self.bg[world].append(newimage)
             self.add_restr(world, i) # set no restrictions by default
 
-    def add_restr(self, world, loc, left=None, right=None, top=None, bot=None):
-        if left == None: left = 0
-        if right == None: right = self.width
-        if top == None: top = 0
-        if bot == None: bot = self.height
-        self.restr[world][loc] = {'left':left, 'right':right, 'top':top, 'bot':bot}
+    def add_restr(self, world, loc, left=0, right=0, top=0, bot=0):
+        self.restr[world][loc] = {'left':left, 'right':self.width-right, 'top':top, 'bot':self.height-bot}
 
     def message(self, x, y, msg):
         self.messages = []
@@ -213,7 +227,7 @@ class Game:
         msgs = msg.split('/')
         for i in range(0, len(msgs)):
             text = self.font.render(msgs[i], 0, (50,50,50))
-            self.messages.append([text, (x, y+i*(self.font_size+2))])
+            self.messages.append([text, (x, y+i*(self.font_size))])
 
     def message_timer(self, dt):
         if self.timer < self.timer_max:
@@ -230,9 +244,9 @@ class Game:
 
         # setup font and messages
         self.messages = []
-        self.timer_max = 50.0
+        self.timer_max = 60.0
         self.timer = self.timer_max
-        self.font_size = 24
+        self.font_size = 32
         self.font = pygame.font.Font(os.path.join('misc', 'Before the sun rises.ttf'), self.font_size)
         self.font_width_max = self.width * 0.3
 
@@ -240,80 +254,81 @@ class Game:
         #pygame.mixer.music.load(os.path.join('music', 'music.ogg'))
         #pygame.mixer.music.play()
 
-        self.player = Player('player', 'player.png', 64, 64)
-        self.player.set_pos(200, 450)
+        self.player = Player('player', 'player.png', 128, 200)
+        self.player.set_pos(500, 300)
+        self.player.setup_frames('idle', 0, 3)
+        self.player.setup_frames('up', 1, 3)
+        self.player.setup_frames('right', 2, 3)
+        self.player.setup_frames('left', 3, 3)
+
+        self.p_bucket = Object('bucket', 'bucket.png', 97, 138)
+        self.p_bucket.set_pos(117, 392)
+        self.p_bucket.set_view(0, 0)
+        self.p_bucket.set_type('pickup')
+        self.p_bucket.set_messages(message="oh cool/a bucket")
+
+        self.d_arch = Object('arch', 'arch.png', 200, 252)
+        self.d_arch.set_pos(295, 115)
+        self.d_arch.set_view(0, 0)
+        self.d_arch.set_type('door', (1,0))
+        self.d_arch.set_messages(response="this place is neat")
+
+        self.p_nail = Object('nail', 'nail.png', 50, 139)
+        self.p_nail.set_pos(584, 189)
+        self.p_nail.set_view(0, 0)
+        self.p_nail.set_type('pickup')
+        self.p_nail.set_messages(message='this is a rather/large nail')
 
         self.objects = pygame.sprite.Group()
 
-        self.n_npc = Object('npc', 'npc.png', 75, 175)
-        self.n_npc.set_type('npc')
-        self.n_npc.set_view(0, 1)
-        self.n_npc.set_pos(120, 165)
-        self.n_npc.set_messages("hey/what's up fagot")
-        #
-        self.p_bucket = Object('bucket', 'bucket.png', 76, 117)
-        self.p_bucket.set_type('pickup')
-        self.p_bucket.set_view(0, 0)
-        self.p_bucket.set_pos(200, 400)
-        self.p_bucket.set_uses(1)
-        #
-        self.u_fire = Object('fire', 'fire.png', 104, 84)
-        self.u_fire.set_type('use')
-        self.u_fire.set_view(0, 0)
-        self.u_fire.set_pos(400, 450)
-        self.u_fire.add_req('bucket')
-        self.u_fire.set_messages(message="good bye/homo fire", error="aaaah it's so hot!")
-        #
-        self.t_lever = Object('lever', 'lever.png', 79, 97)
-        self.t_lever.setup_frames('idle', 0, 2)
-        self.t_lever.setup_frames('on', 1, 2)
-        self.t_lever.set_type('toggle')
-        self.t_lever.set_view(0, 1)
-        self.t_lever.set_pos(500, 500)
-        self.t_lever.add_unreq('fire')
-        self.t_lever.set_messages(message="off", error="error you are a homo", response="turning on/phaser laserz")
-        #
-        self.d_door = Object('door', 'door.png', 134, 156)
-        self.d_door.set_type('door', extra=(1,0))
-        self.d_door.set_view(0,0)
-        self.d_door.set_pos(100, 250)
-        self.d_door.add_unreq('bucket')
-        self.d_door.set_messages(response="you are now in hipster land", error="pick up bucket to/unlock the door lol")
-
-        self.objects.add(self.n_npc)
         self.objects.add(self.p_bucket)
-        self.objects.add(self.u_fire)
-        self.objects.add(self.t_lever)
-        self.objects.add(self.d_door)
+        self.objects.add(self.d_arch)
+        self.objects.add(self.p_nail)
 
         self.bg = {}
         self.restr = []
         self.world = 0
         self.loc = 0
-        self.setup_images(0, 2) # world 0, 2 imgages
+        self.setup_images(0, 4) # world 0, 4 imgages
         self.setup_images(1, 1) # world 1, 1 image
+        self.setup_images(2, 1) # world 1, 1 image
+        self.setup_images(3, 1) # world 1, 1 image
+        self.setup_images(4, 2) # world 1, 1 image
+        self.setup_images(5, 1) # world 1, 1 image
         self.rect = pygame.Rect(0,0,self.width,self.height)
 
         # setup restrictions for each view&world
-        self.add_restr(0, 0, left=100, top=300)
-        self.add_restr(0, 1, right=700, top=300)
+        self.add_restr(0, 0, top=200, left=100)
+        self.add_restr(0, 1, top=200)
+        self.add_restr(0, 2, top=200)
+        self.add_restr(0, 3, top=200, right=100)
 
         while 1:
             dt = clock.tick(fps)
             dt = dt / 50.0
             
             keys = pygame.key.get_pressed()
+
+            self.player.move(dt, keys, self.restr[self.world][self.loc])
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     return
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.player.interact(self, self.objects)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                        self.player.interact(self, self.objects)
+#               if event.type == pygame.KEYUP:
+#                    if event.key == pygame.K_LEFT or event.key == pygame.K_s\
+#                    or event.key == pygame.K_RIGHT or event.key == pygame.K_f\
+#                    or event.key == pygame.K_UP or event.key == pygame.K_d\
+#                    or event.key == pygame.K_DOWN or event.key == pygame.K_e:
+#                        self.player.set_anim('idle')
+#                        print('fuckkk')
 
-            self.loc = (self.loc + self.player.change_view(self.width)) % len(self.bg[self.world])
 
-            self.player.move(dt, keys, self.restr[self.world][self.loc])
+            self.loc = (self.loc + self.player.change_view(self.width, self.bg[self.world])) % len(self.bg[self.world])
 
             # draw world
             self.screen.blit(self.bg[self.world][self.loc], self.rect)
