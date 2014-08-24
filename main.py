@@ -207,14 +207,18 @@ class Player(Object):
                         if obj.can_use(self, objects, objects2, objects3): # pickup the object
                             self.check_swaps(obj, game)
                             if obj.type == 'pickup':
+                                game.sound_pickup.play()
                                 new_item = pygame.image.load(os.path.join('assets', obj.name+'_inv'+'.png'))
                                 self.inventory[obj.name] = {'image': new_item, 'uses': obj.uses}
+                            else:
+                                game.sound_toggle.play()
                             if self.rect.y < 200:
                                 game.message(self.rect.x, self.rect.y + self.height/2, obj.message)
                             else:
                                 game.message(self.rect.x, self.rect.y - self.height/2, obj.message)
                             objects.remove(obj)
                         else:
+                            game.sound_etoggle.play()
                             if self.rect.y < 200:
                                 game.message(self.rect.x, self.rect.y + self.height/2, obj.error)
                             else:
@@ -222,6 +226,7 @@ class Player(Object):
                     # TOGGLE
                     elif obj.type == 'toggle':
                         if obj.can_use(self, objects, objects2, objects3):
+                            game.sound_toggle.play()
                             self.check_swaps(obj, game)
                             if obj.anim == 'idle':
                                 obj.set_anim('on')
@@ -232,16 +237,19 @@ class Player(Object):
                                 obj.set_anim('idle')
                                 game.message(self.rect.x, self.rect.y - self.height, obj.message)
                         else:
+                            game.sound_etoggle.play()
                             game.message(self.rect.x, self.rect.y - self.height, obj.error)
                     # NPC
                     elif obj.type == 'npc':
                         if obj.can_use(self, objects, objects2, objects3):
+                            game.sound_enpc.play()
                             self.check_swaps(obj, game)
                             if self.rect.centery < 300:
                                 game.message(self.rect.x, self.rect.centery + self.rect.height*.5, obj.message)
                             else:
                                 game.message(self.rect.x, self.rect.centery - self.rect.height - 40, obj.message)
                         else:
+                            game.sound_npc.play()
                             if self.rect.centery < 300:
                                 game.message(self.rect.x, self.rect.centery + self.rect.height, obj.error)
                             else:
@@ -249,6 +257,7 @@ class Player(Object):
                     # DOOR
                     elif obj.type == 'door':
                         if obj.can_use(self, objects, objects2, objects3):
+                            game.sound_door.play()
                             self.check_swaps(obj, game)
                             game.message(self.rect.x, self.rect.y - self.height/2, obj.response)
                             game.world, game.loc = obj.to
@@ -334,7 +343,15 @@ class Game:
 
         pygame.mixer.init()
         pygame.mixer.music.load(os.path.join('misc', 'above.ogg'))
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1)
+        self.sound_enpc = pygame.mixer.Sound(os.path.join('misc', 'npc.wav'))
+        self.sound_npc = pygame.mixer.Sound(os.path.join('misc', 'e_npc.wav'))
+        self.sound_npc.set_volume(0.8)
+        self.sound_pickup = pygame.mixer.Sound(os.path.join('misc', 'pickup.wav'))
+        self.sound_etoggle = pygame.mixer.Sound(os.path.join('misc', 'e_toggle.wav'))
+        self.sound_toggle = pygame.mixer.Sound(os.path.join('misc', 'toggle.wav'))
+        self.sound_door = pygame.mixer.Sound(os.path.join('misc', 'door.wav'))
+
 
         self.player = Player('player', 'player.png', 128, 200)
         self.player.set_pos(500, 300)
@@ -429,7 +446,7 @@ class Game:
         self.n_reader.set_messages(message='"that guy is/a snob"', error='"woah/that hole/is scary"')
 
         self.t_ropenail = Object('ropenail', 'ropenail.png', 84, 121)
-        self.t_ropenail.set_pos(640, 320)
+        self.t_ropenail.set_pos(640, 370)
         self.t_ropenail.set_view(0, 3)
         self.t_ropenail.set_type('toggle')
         self.t_ropenail.add_req('nail')
@@ -439,7 +456,7 @@ class Game:
         self.t_ropenail.set_messages(message="down i go/i do suppose", error="the ground here/looks soft")
 
         self.t_hipster = Object('hipster', 'hipster.png', 323, 190)
-        self.t_hipster.set_pos(350, 250)
+        self.t_hipster.set_pos(370, 350)
         self.t_hipster.set_view(0, 3)
         self.t_hipster.set_type('use')
         self.t_hipster.add_req('hotmilk')
@@ -455,7 +472,7 @@ class Game:
         #self.t_cardboard.set_messages(message="cardboard burns quickly")
 
         self.d_hole = Object('hole', 'hole.png', 105, 48)
-        self.d_hole.set_pos(550, 400)
+        self.d_hole.set_pos(550, 450)
         self.d_hole.set_view(0, 3)
         self.d_hole.set_type('door', (3,0))
         #self.d_hole.add_parent('cardboard')
@@ -560,8 +577,8 @@ class Game:
 
         self.bg = {}
         self.restr = []
-        self.world = 3
-        self.loc = 0
+        self.world = 0
+        self.loc = 3
         self.setup_images(0, 4) # world 0, 4 imgages
         self.setup_images(1, 1) # world 1, 1 image
         self.setup_images(2, 1) # world 2, 1 image
