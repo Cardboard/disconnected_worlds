@@ -137,9 +137,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497476"
-     inkscape:cx="1780.7336"
-     inkscape:cy="1451.3666"
+     inkscape:zoom="0.35000001"
+     inkscape:cx="1830.8459"
+     inkscape:cy="291.40629"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -490,7 +490,10 @@
        height="600"
        x="1600"
        y="0"
-       transform="translate(0,452.36218)" />
+       transform="translate(0,452.36218)"
+       inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\assets\bg_4_1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#ccc1b6;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="m 1591.4286,140 c 2.3755,11.38838 18.8514,118.2914 34.2857,102.85715 13.1328,-13.13284 3.1595,-46.01667 17.1428,-60 1.9498,-1.94978 2.6854,24.37158 11.4286,20 10.5146,-5.25729 14.4979,-20.10607 25.7143,-25.71429 8.3947,-4.19737 22.0467,13.26236 31.4286,8.57143 29.0269,-14.51346 46.543,-38.98578 77.1428,-54.28572 11.0445,-5.52225 19.1956,11.16043 28.5714,14.28572 15.636,5.21198 35.9776,-2.2932 51.4286,2.85714 24.9189,8.30631 42.8387,14.2765 65.7143,25.71429 4.1019,2.05096 130.9467,6.90192 134.2857,8.57143 11.1503,5.57513 37.103,30.01991 51.4286,22.85714 10.8532,-5.42662 17.5116,-20.18436 28.5714,-25.71429 10.7398,-5.36989 23.0542,8.47293 34.2857,2.85715 19.0483,-9.52414 37.0734,-21.39381 57.1429,-31.42858 24.1424,-12.0712 56.5663,16.85461 74.2857,25.71429 4.6017,2.30084 43.9697,2.30084 48.5714,0 7.6143,-3.80714 3.8296,-23.7995 17.1429,-17.14286 4.5198,2.25993 32.4686,16.10277 37.1428,11.42857 19.2033,-19.20321 5.7143,-84.21824 5.7143,-114.285709 0,-42.723895 20.1607,-108.249988 0,-148.571428 -10.9322,-21.864413 -30.4861,-9.657033 -54.2857,-2.857143 -109.9671,31.419179 -235.0868,31.893959 -348.5714,40 -78.843,5.63164 -158.0637,12.304215 -237.1429,5.714286 -27.0379,-2.253159 -182.0647,-26.50673 -200,-8.571429 -3.7166,3.716585 2.8572,14.217824 2.8572,17.142857 0,24.746404 -16.9404,103.262082 -8.5715,119.999999 8.8085,17.616837 18.4321,39.268217 14.2858,59.999997 z"
@@ -529,7 +532,7 @@
        transform="translate(0,452.36218)" />
     <path
        style="fill:#3d3d3d;fill-opacity:1;stroke:none"
-       d="m 2217.1428,1289.505 c 2.181,-5.3204 2.8572,-21.9318 2.8572,-51.4285 0,-20.3178 13.8827,-131.8316 51.4286,-94.2857 6.2943,6.2943 3.4833,17.769 8.5714,22.8571 7.3857,7.3858 1.1888,71.9081 -2.8572,80 -3.1583,6.3166 -6.0497,136.8074 -25.7142,117.1428 -5.8008,-5.8007 -4.5632,-18.8488 -11.4286,-25.7142 -9.4581,-9.4581 -19.8723,-33.647 -22.8572,-48.5715 z"
+       d="m 2217.1428,869.505 c 2.181,-5.3204 2.8572,-21.9318 2.8572,-51.4285 0,-20.3178 13.8827,-131.8316 51.4286,-94.2857 6.2943,6.2943 3.4833,17.769 8.5714,22.8571 7.3857,7.3858 1.1888,71.9081 -2.8572,80 -3.1583,6.3166 -6.0497,136.8074 -25.7142,117.1428 -5.8008,-5.8007 -4.5632,-18.8488 -11.4286,-25.7142 -9.4581,-9.4581 -19.8723,-33.647 -22.8572,-48.5715 z"
        id="path6533"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\rdoor2.png"
@@ -555,7 +558,7 @@
        transform="translate(0,452.36218)" />
     <path
        style="fill:#3d3d3d;fill-opacity:1;stroke:none"
-       d="m 1727.3608,1323.4688 c -4.6605,-31.4202 -6.0609,-64.9849 -6.0609,-96.9747 0,-15.489 0,-30.978 0,-46.467 0,-10.9362 0.6847,-20.2369 4.0406,-30.3046 35.286,-105.858 34.9401,75.3462 36.3655,76.7716 16.4248,16.4248 -34.3452,97.5802 -34.3452,107.0762"
+       d="m 1727.3608,963.4688 c -4.6605,-31.4202 -6.0609,-64.9849 -6.0609,-96.9747 0,-15.489 0,-30.978 0,-46.467 0,-10.9362 0.6847,-20.2369 4.0406,-30.3046 35.286,-105.858 34.9401,75.3462 36.3655,76.7716 16.4248,16.4248 -34.3452,97.5802 -34.3452,107.0762"
        id="path6557"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\ldoor32.png"
@@ -664,7 +667,10 @@
        width="800"
        height="600"
        x="0"
-       y="-747.63782" />
+       y="-747.63782"
+       inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\assets\bg_4_0.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <rect
        y="-747.63782"
        x="0"
@@ -693,8 +699,8 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:#3d3d3d;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1024.8834,-460.84632 c 0.9504,-18.35684 6.0609,-36.43185 6.0609,-54.54824 0,-23.37016 20.7983,-120.92066 56.5686,-103.03556 3.7023,1.8512 10.0103,3.8582 12.1218,8.0812 15.2704,30.5407 -10.1015,149.11565 -10.1015,193.94931 0,4.36785 -2.2324,58.48279 -6.0609,56.56854 -28.6233,-14.31163 -38.1233,-75.43332 -58.5889,-101.01525 z"
+       style="fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 684.8834,-460.84632 c 0.9504,-18.35684 6.0609,-36.43185 6.0609,-54.54824 0,-23.37016 20.7983,-120.92066 56.5686,-103.03556 3.7023,1.8512 10.0103,3.8582 12.1218,8.0812 15.2704,30.5407 -10.1015,149.11565 -10.1015,193.94931 0,4.36785 -2.2324,58.48279 -6.0609,56.56854 -28.6233,-14.31163 -38.1233,-75.43332 -58.5889,-101.01525 z"
        id="path6657"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\bridgedoor2.png"
@@ -1029,7 +1035,7 @@
     <g
        id="g5454"
        transform="translate(4.0406101,-4.0406101)"
-       inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\balloon.png"
+       inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\light.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
@@ -1045,15 +1051,18 @@
     </g>
     <g
        id="g5450"
-       transform="translate(-734.28571,-8.5714283)"
-       inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\balloon2.png"
+       transform="translate(-734.28571,-8.571428)"
+       inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\light2.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
          style="fill:#f195ab;fill-opacity:1;stroke:none"
          d="M 382.85714,-59.06639 C 363.01094,-56.46832 330,-49.12289 330,-26.20924 c 0,31.16953 36.76338,47.14285 62.85714,47.14285 5.18973,0 -3.08799,12.6263 0,15.71429 3.591,3.591 22.67852,-4.28572 25.71428,-4.28572 5.48858,0 -8.38016,-13.0484 -7.14285,-14.28571 4.72071,-4.72071 12.35789,0.9985 17.14285,-8.57143 6.9023,-13.8046 26.44096,-13.60858 32.85715,-32.85714 14.66812,-44.00438 -47.44586,-48.16452 -78.57143,-35.71429 z"
          id="path6947"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\assets\fullballoon_inv.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
       <path
          inkscape:connector-curvature="0"
          id="path6877"
@@ -1145,7 +1154,7 @@
     </g>
     <path
        style="fill:#3d3d3d;fill-opacity:1;stroke:none"
-       d="m 1648.5689,-766.29806 c 5.9609,-46.8914 -4.4423,-185.46636 24.2437,-214.15236 1.0081,-1.0081 8.5196,0 10.1015,0 29.5442,0 22.3103,38.6468 28.2843,56.5686 21.6022,64.80653 -41.9591,105.90783 -62.6295,157.58376 z"
+       d="m 1648.5689,-406.29806 c 5.9609,-46.8914 -4.4423,-185.46636 24.2437,-214.15236 1.0081,-1.0081 8.5196,0 10.1015,0 29.5442,0 22.3103,38.6468 28.2843,56.5686 21.6022,64.80653 -41.9591,105.90783 -62.6295,157.58376 z"
        id="path5496"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\matthew\Projects\disconnected_worlds\src\working\ldoor32.png"

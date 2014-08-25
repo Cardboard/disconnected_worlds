@@ -231,14 +231,16 @@ class Player(Object):
                             if obj.anim == 'idle':
                                 obj.set_anim('on')
                                 game.message(self.rect.x, self.rect.y - self.height, obj.response)
-                            elif obj.breaks:
-                                game.message(self.rect.x, self.rect.y - self.height, obj.response)
                             else:
                                 obj.set_anim('idle')
                                 game.message(self.rect.x, self.rect.y - self.height, obj.message)
                         else:
-                            game.sound_etoggle.play()
-                            game.message(self.rect.x, self.rect.y - self.height, obj.error)
+                            if obj.breaks and obj.anim == 'on':
+                                game.sound_toggle.play()
+                                game.message(self.rect.x, self.rect.y - self.height, obj.response)
+                            else:
+                                game.sound_etoggle.play()
+                                game.message(self.rect.x, self.rect.y - self.height, obj.error)
                     # NPC
                     elif obj.type == 'npc':
                         if obj.can_use(self, objects, objects2, objects3):
@@ -354,7 +356,7 @@ class Game:
 
 
         self.player = Player('player', 'player.png', 128, 200)
-        self.player.set_pos(500, 300)
+        self.player.set_pos(200, 300)
         self.player.setup_frames('idle', 0, 3)
         self.player.setup_frames('up', 1, 3)
         self.player.setup_frames('right', 2, 3)
@@ -453,7 +455,7 @@ class Game:
         self.t_ropenail.add_req('rope')
         #self.t_ropenail.add_unreq('cardboard')
         self.t_ropenail.setup_frames('on', 1, 2)
-        self.t_ropenail.set_messages(message="down i go/i do suppose", error="the ground here/looks soft")
+        self.t_ropenail.set_messages(response="down i go/i do suppose", message="down i go/i do suppose", error="the ground here/looks soft")
 
         self.t_hipster = Object('hipster', 'hipster.png', 323, 190)
         self.t_hipster.set_pos(370, 350)
@@ -472,7 +474,7 @@ class Game:
         #self.t_cardboard.set_messages(message="cardboard burns quickly")
 
         self.d_hole = Object('hole', 'hole.png', 105, 48)
-        self.d_hole.set_pos(550, 450)
+        self.d_hole.set_pos(540, 450)
         self.d_hole.set_view(0, 3)
         self.d_hole.set_type('door', (3,0))
         #self.d_hole.add_parent('cardboard')
