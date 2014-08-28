@@ -340,7 +340,7 @@ class Game:
         self.timer_max = 60.0
         self.timer = self.timer_max
         self.font_size = 32
-        self.font = pygame.font.Font(os.path.join('misc', 'Before the sun rises.ttf'), self.font_size)
+        self.font = pygame.font.Font(os.path.join('misc', 'Before the sun rises.otf'), self.font_size)
         self.font_width_max = self.width * 0.3
 
         pygame.mixer.init()
